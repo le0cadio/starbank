@@ -1,0 +1,23 @@
+package com.starkbank.challenge.infra.persistence
+
+import com.starkbank.challenge.domain.*
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
+
+@Repository
+interface InvoiceRepository : JpaRepository<Invoice, String> {
+    fun findByStatus(status: InvoiceStatus): List<Invoice>
+    fun countByStatus(status: InvoiceStatus): Long
+}
+
+@Repository
+interface TransferRepository : JpaRepository<Transfer, String> {
+    fun findBySourceInvoiceId(sourceInvoiceId: String): Transfer?
+    fun findByStatus(status: TransferStatus): List<Transfer>
+    fun countByStatus(status: TransferStatus): Long
+}
+
+@Repository
+interface WebhookEventRepository : JpaRepository<WebhookEvent, String> {
+    fun findByInvoiceId(invoiceId: String): WebhookEvent?
+}
